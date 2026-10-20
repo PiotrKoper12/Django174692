@@ -14,8 +14,8 @@ Projekt referencyjny realizowany w ramach przedmiotu **Aplikacje WWW (semestr 20
 1. Sklonuj repozytorium:
 
    ```bash
-   git clone https://github.com/PiotrKoper12/django174692.git
-   cd django174692
+   git clone https://github.com/PiotrKoper12/Django174692.git
+   cd Django174692
    ```
 
 2. Utwórz i aktywuj środowisko wirtualne:
