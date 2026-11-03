@@ -23,5 +23,17 @@
             <h4>Chcesz wziąć udział?</h4>
             <p>Rezerwacja biletów przez przeglądarkę będzie dostępna wkrótce za pośrednictwem naszego REST API (Lab 4-9)!</p>
         </div>
+
+        <h3 style="margin-top: 30px;">Podobne wydarzenia</h3>
+        <ul class="related-events">
+            {% for rel_event in related_events %}
+                <li>
+                    <a href="{% url 'events:event-detail' rel_event.slug %}">{{ rel_event.title }}</a>
+                    – {{ rel_event.date|date:"d M Y, H:i" }}
+                </li>
+            {% empty %}
+                <li>Brak innych wydarzeń w tej kategorii.</li>
+            {% endfor %}
+        </ul>
     </div>
 {% endblock %}

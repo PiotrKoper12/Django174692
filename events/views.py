@@ -5,7 +5,14 @@ from .models import Event, Category
 def event_list(request):
     """Widok listy opublikowanych wydarzeń."""
     events = Event.objects.filter(is_published=True).select_related('category', 'organizer')
-    return render(request, 'events/event_list.html', {'events': events})
+    q = request.GET.get('q')
+    if q:
+        events = events.filter(title__icontains=q)
+    return render(request, 'events/event_list.html', {
+        'events': events,
+        'categories': Category.objects.all(),
+        'q': q
+    })
 
 
 def event_detail(request, slug):
@@ -15,7 +22,14 @@ def event_detail(request, slug):
         slug=slug,
         is_published=True
     )
-    return render(request, 'events/event_detail.html', {'event': event})
+    related_events = Event.objects.filter(
+        category=event.category,
+        is_published=True
+    ).exclude(id=event.id)[:3]
+    return render(request, 'events/event_detail.html', {
+        'event': event,
+        'related_events': related_events
+    })
 
 
 def events_by_category(request, category_slug):
@@ -24,5 +38,6 @@ def events_by_category(request, category_slug):
     events = category.events.filter(is_published=True).select_related('organizer')
     return render(request, 'events/event_list.html', {
         'events': events,
+        'categories': Category.objects.all(),
         'current_category': category
     })
